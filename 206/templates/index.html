@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 타임라인 전체 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /* 세로 라인 */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #007bff;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        /* 타임라인 아이템 */
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+        }
+
+        /* 왼쪽 */
+        .timeline-item.left {
+            left: -10%;
+        }
+
+        /* 오른쪽 */
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        /* 카드 */
+        .timeline-item .content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 동그라미 */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 3px solid #007bff;
+            top: 30px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item.right::before {
+            left: -10px;
+        }
+
+        /* timestamp 스타일 */
+        .timestamp {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+
+        /* 반응형 */
+        @media screen and (max-width: 768px) {
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item.right {
+                left: 0%;
+            }
+
+            .timeline::after {
+                left: 30px;
+            }
+
+            .timeline-item::before {
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Timeline</h1>
+    <div class="timeline">
+        {% for item in timeline %}
+        <div class="timeline-item {% if loop.index is odd %}left{% else %}right{% endif %}">
+            <div class="content">
+                <div class="timestamp">{{ item.timestamp }}</div>
+                <h3>{{ item.type }}</h3>
+                <p>{{ item.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
